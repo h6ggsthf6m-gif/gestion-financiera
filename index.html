@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gestión Financiera PRO</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#090e14;color:#eef4f7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 10%,#183142,#090e14 45%,#070a0f)}
+.loginbox,.card,.panel{background:#101720;border:1px solid #263542;border-radius:16px;box-shadow:0 14px 45px #0005}
+.loginbox{width:min(390px,100%);padding:28px}.logo{width:48px;height:48px;border-radius:13px;background:#1e9d74;display:grid;place-items:center;font-weight:900}.brand{font-size:22px;font-weight:800;letter-spacing:1px;margin-top:16px}.muted{color:#80909d}.loginbox input,.form input,.form select,.form textarea{width:100%;padding:12px;border-radius:9px;border:1px solid #2b3a47;background:#0b1118;color:#fff;margin:6px 0 12px}
+.primary{background:#1e9d74;color:white;border:0;padding:12px 16px;border-radius:9px;font-weight:700}.danger{background:#b83a4a;color:#fff;border:0;padding:12px 16px;border-radius:9px}.ghost{background:#17222d;color:#dbe5ea;border:1px solid #2b3a47;padding:10px 14px;border-radius:9px}
+.app{display:flex;min-height:100vh}aside{width:235px;background:#0b1118;border-right:1px solid #1e2b36;padding:20px 14px;display:flex;flex-direction:column}.sidebrand{font-weight:800;letter-spacing:1px;padding:8px}.sidebrand span{font-weight:400;color:#82909b}
+nav button{display:block;width:100%;text-align:left;background:transparent;border:0;color:#9aa8b3;padding:12px;border-radius:9px;margin:4px 0}nav button.active,nav button:hover{background:#15222c;color:#fff}
+main{flex:1;padding:25px;max-width:1300px;margin:auto;width:100%}header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}.eyebrow{font-size:10px;letter-spacing:2px;color:#6f8290}h1{margin:4px 0 0}.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.card{padding:17px}.card small{color:#7f8d99}.card strong{display:block;font-size:21px;margin-top:8px}.green{color:#42d6a0}.red{color:#ff7180}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.quick button{height:92px;border-radius:14px;border:1px solid #2a3945;background:#101720;color:#fff;font-weight:800}.quick button b{display:block;font-size:28px;margin-bottom:5px}.qgreen b{color:#42d6a0}.qred b{color:#ff7180}.qblue b{color:#63b7ff}
+.panel{margin-top:16px;overflow:auto}.panel h3{margin:0;padding:16px;border-bottom:1px solid #24313d}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px 14px;border-bottom:1px solid #1e2b35;text-align:left;white-space:nowrap}.table th{color:#7f8e9a;font-size:12px}
+.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:18px;z-index:5}.modalbox{width:min(700px,100%);max-height:92vh;overflow:auto;background:#101720;border:1px solid #2b3a47;border-radius:16px;padding:20px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.wide{grid-column:1/-1}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+@media(max-width:800px){aside{width:72px;padding:12px 8px}.sidebrand{font-size:0}.sidebrand:first-letter{font-size:18px}nav button{font-size:0;text-align:center}nav button:first-letter{font-size:20px}main{padding:16px}.cards{grid-template-columns:1fr 1fr}.quick{grid-template-columns:1fr}.table{font-size:12px}header{align-items:flex-start}.formgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="login" class="login"><div class="loginbox">
+<div class="logo">GF</div><div class="brand">GESTIÓN FINANCIERA</div><p class="muted">Prototipo web · funciona en Safari y Chrome</p>
+<input id="user" value="admin" placeholder="Usuario"><input id="pass" value="Admin123!" type="password" placeholder="Contraseña">
+<button class="primary" style="width:100%" onclick="login()">Ingresar</button><p class="muted" style="font-size:12px">Demo: admin / Admin123!</p>
+</div></div>
+<div id="app" class="app hidden">
+<aside><div class="sidebrand">GF <span>GESTIÓN FINANCIERA</span></div><nav>
+<button class="active" onclick="show('home',this)">🏠 Inicio</button><button onclick="show('mov',this)">↕ Movimientos</button><button onclick="show('trans',this)">↔ Transferencias</button><button onclick="show('audit',this)">🕵️ Auditoría</button><button onclick="show('users',this)">👥 Usuarios</button>
+</nav><div style="margin-top:auto"><button class="ghost" style="width:100%" onclick="logout()">Salir</button></div></aside>
+<main><header><div><div class="eyebrow">GESTIÓN FINANCIERA PRO</div><h1 id="title">Dashboard</h1></div><button class="primary" onclick="openOp()">＋ Nueva operación</button></header>
+<section id="home"></section><section id="mov" class="hidden"></section><section id="trans" class="hidden"></section><section id="audit" class="hidden"></section><section id="users" class="hidden"></section>
+</main></div>
+<div id="modal" class="modal hidden"><div class="modalbox"><h2>Nueva operación</h2><div class="formgrid form">
+<label>Tipo<select id="type"><option>INGRESO</option><option>EGRESO</option><option>TRANSFERENCIA</option></select></label>
+<label>Operador<input id="op" value="Juan Pérez"></label><label>Importe<input id="amount" type="number" value="100000"></label><label>Días<input id="days" type="number" value="0"></label>
+<label>Interés %<input id="rate" type="number" value="0" step=".01"></label><label>Comisión<input id="commission" type="number" value="0" step=".01"></label>
+<label>Nº transferencia<input id="trf" placeholder="TRF-0001"></label><label>Concepto<input id="concept" placeholder="Concepto"></label>
+<label class="wide">Datos / observaciones<textarea id="notes"></textarea></label></div>
+<div class="actions"><button class="ghost" onclick="closeOp()">Cancelar</button><button class="primary" onclick="saveOp()">Confirmar operación</button></div></div></div>
+<script>
+const demo=[
+{id:1,type:'INGRESO',date:'2026-08-30',operator:'Juan Pérez',amount:850000,days:15,rate:2,commission:8500,concept:'Cobro de operación',trf:'TRF-DEMO-001'},
+{id:2,type:'EGRESO',date:'2026-08-30',operator:'María Gómez',amount:210000,days:0,rate:0,commission:4500,concept:'Pago a proveedor',trf:'TRF-DEMO-002'},
+{id:3,type:'INGRESO',date:'2026-08-29',operator:'Juan Pérez',amount:1250000,days:30,rate:1.5,commission:18750,concept:'Operación financiada',trf:'TRF-DEMO-003'}
+];
+let data=JSON.parse(localStorage.getItem('gf_mov')||'null')||demo, audit=JSON.parse(localStorage.getItem('gf_audit')||'[]');
+function money(n){return '$ '+Number(n||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function persist(){localStorage.setItem('gf_mov',JSON.stringify(data));localStorage.setItem('gf_audit',JSON.stringify(audit))}
+function login(){if((document.getElementById('user').value==='admin'&&document.getElementById('pass').value==='Admin123!')||document.getElementById('user').value){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');renderHome();}}
+function logout(){location.reload()}
+function show(id,btn){document.querySelectorAll('main section').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.getElementById('title').textContent={home:'Dashboard',mov:'Movimientos',trans:'Transferencias',audit:'Auditoría',users:'Usuarios'}[id];({home:renderHome,mov:renderMov,trans:renderTrans,audit:renderAudit,users:renderUsers}[id])()}
+function renderHome(){let ing=data.filter(x=>x.type==='INGRESO').reduce((a,x)=>a+x.amount,0), eg=data.filter(x=>x.type==='EGRESO').reduce((a,x)=>a+x.amount,0), inte=data.reduce((a,x)=>a+x.amount*(x.rate||0)/100*(x.days||0)/30,0), com=data.reduce((a,x)=>a+(x.commission||0),0);document.getElementById('home').innerHTML=`<div class="cards"><div class="card"><small>SALDO</small><strong>${money(ing-eg)}</strong></div><div class="card"><small>INGRESOS</small><strong class="green">${money(ing)}</strong></div><div class="card"><small>EGRESOS</small><strong class="red">${money(eg)}</strong></div><div class="card"><small>INTERESES</small><strong>${money(inte)}</strong></div><div class="card"><small>COMISIONES</small><strong>${money(com)}</strong></div></div><div class="quick"><button class="qgreen" onclick="openOp('INGRESO')"><b>＋</b>INGRESO</button><button class="qred" onclick="openOp('EGRESO')"><b>−</b>EGRESO</button><button class="qblue" onclick="openOp('TRANSFERENCIA')"><b>↔</b>TRANSFERENCIA</button></div><div class="panel"><h3>Últimas operaciones</h3>${table(data.slice().reverse().slice(0,8))}</div>`}
+function table(xs){if(!xs.length)return '<p style="padding:18px" class="muted">No hay operaciones.</p>';return `<table class="table"><tr><th>ID</th><th>Tipo</th><th>Fecha</th><th>Operador</th><th>Importe</th><th>Comisión</th><th>Transferencia</th></tr>${xs.map(x=>`<tr><td>#${x.id}</td><td>${x.type}</td><td>${x.date}</td><td>${x.operator}</td><td>${money(x.amount)}</td><td>${money(x.commission)}</td><td>${x.trf||'-'}</td></tr>`).join('')}</table>`}
+function renderMov(){document.getElementById('mov').innerHTML='<div class="panel"><h3>Todos los movimientos</h3>'+table(data.slice().reverse())+'</div>'}
+function renderTrans(){document.getElementById('trans').innerHTML='<div class="panel"><h3>Transferencias</h3>'+table(data.filter(x=>x.type==='TRANSFERENCIA'||x.trf).slice().reverse())+'</div>'}
+function renderAudit(){document.getElementById('audit').innerHTML='<div class="panel"><h3>Historial de auditoría</h3><table class="table"><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Operación</th><th>Detalle</th></tr>'+audit.slice().reverse().map(a=>`<tr><td>${a.date}</td><td>${a.user}</td><td>${a.action}</td><td>#${a.id}</td><td>${a.detail}</td></tr>`).join('')+'</table></div>'}
+function renderUsers(){document.getElementById('users').innerHTML='<div class="panel"><h3>Usuarios autorizados</h3><table class="table"><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Auditoría</th></tr><tr><td>admin</td><td>Administrador General</td><td>ADMIN</td><td>Completa</td></tr><tr><td>supervisor</td><td>Laura Fernández</td><td>SUPERVISOR</td><td>Completa</td></tr><tr><td>operador1</td><td>Juan Pérez</td><td>OPERADOR</td><td>No</td></tr><tr><td>operador2</td><td>María Gómez</td><td>OPERADOR</td><td>No</td></tr><tr><td>auditoria</td><td>Carlos López</td><td>OPERADOR</td><td>Solo lectura</td></tr></table></div>'}
+function openOp(t){document.getElementById('modal').classList.remove('hidden');if(t)document.getElementById('type').value=t}
+function closeOp(){document.getElementById('modal').classList.add('hidden')}
+function saveOp(){let x={id:Math.max(0,...data.map(a=>a.id))+1,type:type.value,date:new Date().toISOString().slice(0,10),operator:op.value,amount:+amount.value,days:+days.value,rate:+rate.value,commission:+commission.value,concept:concept.value||'Sin concepto',trf:trf.value||''};data.push(x);audit.push({date:new Date().toLocaleString('es-AR'),user:document.getElementById('user').value,action:'CREACIÓN',id:x.id,detail:`${x.type} · ${money(x.amount)}`});persist();closeOp();renderHome()}
+renderHome();
+</script></body></html>
